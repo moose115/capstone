@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+// User related models
+
+model User {
+  userId            String       @id @default(cuid())
+  email             String       @unique @db.String(255)
+  firstName         String?
+  lastName          String?
+  phoneNumber       String?      @unique @db.Char(10)
+  band              String?
+  address           String?
+  city              String?
+  province          String?
+  postal            String?
+  password_hash     String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  confirmed         Boolean      @default(false)
+  confirmationToken String       @default(cuid())
+  courses           UserCourse[]
+  session           Session[]
+  roleId            BigInt
+  role              Role         @relation(fields: [roleId], references: [roleId])
+}
+
+model Role {
+  roleId      BigInt           @id @default(autoincrement())
+  name        Roles            @unique
+  users       User[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  name   String
+  action Actions
+  roles  RolePermission[]
+
+  @@id([name, action])
+}
+
+model RolePermission {
+  roleId     BigInt
+  role       Role       @relation(fields: [roleId], references: [roleId])
+  name       String
+  action     Actions
+  permission Permission @relation(fields: [name, action], references: [name, action])
+
+  @@id([roleId, name, action])
+}
+
+// Course related models
+
+model Course {
+  courseId          BigInt       @id @default(autoincrement())
+  courseName        String
+  courseDescription String
+  isOnline          Boolean
+  canvaLink         String?
+  users             UserCourse[]
+  schedules         Schedule[]
+  quiz              Quiz[]
+}
+
+model UserCourse {
+  passed   Boolean
+  score    Int?
+  userId   String
+  user     User    @relation(fields: [userId], references: [userId])
+  courseId BigInt
+  course   Course  @relation(fields: [courseId], references: [courseId])
+
+  @@id([userId, courseId])
+}
+
+model Schedule {
+  scheduleId BigInt   @id @default(autoincrement())
+  startTime  DateTime
+  duration   Int
+  location   String
+  courseId   BigInt
+  course     Course   @relation(fields: [courseId], references: [courseId])
+}
+
+model Quiz {
+  quizId    BigInt     @id @default(autoincrement())
+  courseId  BigInt
+  course    Course     @relation(fields: [courseId], references: [courseId])
+  questions Question[]
+}
+
+model Question {
+  questionId   BigInt             @id @default(autoincrement())
+  questionText String
+  quiz         Quiz               @relation(fields: [quizId], references: [quizId])
+  quizId       BigInt
+  answers      Answer[]
+  feedback     QuestionFeedback[]
+}
+
+model Answer {
+  answerId   BigInt   @id @default(autoincrement())
+  answerText String
+  isCorrect  Boolean
+  questionId BigInt
+  question   Question @relation(fields: [questionId], references: [questionId])
+}
+
+model QuestionFeedback {
+  feedbackId   BigInt   @id @default(autoincrement())
+  feedbackText String
+  rating       Int
+  questionId   BigInt
+  question     Question @relation(fields: [questionId], references: [questionId])
+}
+
+// Auth related models
+
+model Session {
+  id        String   @id @default(uuid())
+  expiresAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [userId])
+}
+
+enum Actions {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  CREATE_SELF
+  READ_SELF
+  UPDATE_SELF
+  DELETE_SELF
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
