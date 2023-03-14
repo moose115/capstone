@@ -62,7 +62,7 @@ model Course {
   courseId          BigInt       @id @default(autoincrement())
   courseName        String
   courseDescription String
-  isOnline          Boolean
+  isOnline          Boolean      @default(false)
   canvaLink         String?
   users             UserCourse[]
   schedules         Schedule[]
