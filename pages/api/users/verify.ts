@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
-import zod from 'zod';
+import * as zod from 'zod';
 
 const verifySchema = zod.object({
   email: zod.string().email(),

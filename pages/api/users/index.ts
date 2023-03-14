@@ -4,7 +4,7 @@ import { ensureRolePermission } from '@/middlewares/auth';
 import { Entities } from '@/lib/enums';
 import { Actions, PrismaClient, Roles } from '@prisma/client';
 import { hash } from 'bcrypt';
-import zod from 'zod';
+import * as zod from 'zod';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
