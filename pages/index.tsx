@@ -1,11 +1,12 @@
+import Hero from '@/components/home/Hero';
+import Layout from '@/components/layout/Layout';
 import { Button } from '@mui/material';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <Button variant="contained">Hello World!</Button>
-    </div>
+    <Layout>
+      <Hero />
+    </Layout>
   );
 };
 
