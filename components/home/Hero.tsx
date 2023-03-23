@@ -1,3 +1,4 @@
+import SchoolIcon from '@mui/icons-material/School';
 import { Button, styled, Typography } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import Image from 'next/image';
@@ -30,10 +31,7 @@ const Hero = () => {
           >
             <ColoredText>Prepare</ColoredText> for your baby&apos;s arrival
           </Typography>
-          <Typography
-            color="primary.contrastText"
-            sx={{ mb: 3, maxWidth: 500 }}
-          >
+          <Typography color={'primary.200'} sx={{ mb: 3, maxWidth: 500 }}>
             Maskwacis Health Services is offering prenatal classes for expecting
             parents in the Maskwacis community. Our classes cover important
             topics such as pregnancy health, childbirth, breastfeeding, and
@@ -42,7 +40,12 @@ const Hero = () => {
           </Typography>
           <Box>
             <Link href="/classes">
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                endIcon={<SchoolIcon />}
+              >
                 View classes
               </Button>
             </Link>
