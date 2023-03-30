@@ -16,3 +16,17 @@ const navRoutes: RouteCategories = {
   admin: [{ path: '/admin', displayName: 'Admin' }],
   user: [{ path: '/profile', displayName: 'My profile' }],
 };
+
+const profileRoutes: Route[] = [
+  { path: '/profile', displayName: 'My profile' },
+  { path: '/profile/settings', displayName: 'Settings' },
+];
+
+const adminRoutes: Route[] = [
+  { path: '/admin', displayName: 'Dashboard' },
+  { path: '/admin/users', displayName: 'Users' },
+  { path: '/admin/classes', displayName: 'Classes' },
+  { path: '/admin/registratoins', displayName: 'Registrations' },
+];
+
+export { navRoutes, profileRoutes, adminRoutes };
