@@ -4,7 +4,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ClassIcon from '@mui/icons-material/Class';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
-type Route = {
+export type Route = {
   path: string;
   displayName: string;
   Icon?: any; // React MUI Icon component
