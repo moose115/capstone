@@ -1,7 +1,7 @@
-import Layout from '@/components/layout/Layout';
+import ProfileLayout from '@/components/layout/ProfileLayout';
 
 const Profile = () => {
-  return <Layout>Profile</Layout>;
+  return <ProfileLayout>Profile</ProfileLayout>;
 };
 
 export default Profile;
