@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { green, lightGreen, purple } from '@mui/material/colors';
 import type { AppProps } from 'next/app';
+import "../public/styles.css";
 
 const theme = createTheme({
   palette: {
