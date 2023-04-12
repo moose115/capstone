@@ -1,12 +1,13 @@
-import { User } from '@prisma/client';
+import { SessionWithUserSafe } from '@/types/session';
+import { UserWithRole } from '@/types/user';
+import { Prisma, Role, Roles, User, Session } from '@prisma/client';
 import { createContext } from 'react';
 
-const isDevUser =
-  process.env.NODE_ENV !== 'production' && process.env.DEV_ROLE === 'user';
-const isDevAdmin =
-  process.env.NODE_ENV !== 'production' && process.env.DEV_ROLE === 'admin';
+const isDev = process.env.NODE_ENV !== 'production';
+const isDevUser = isDev && process.env.DEV_ROLE === 'user';
+const isDevAdmin = isDev && process.env.DEV_ROLE === 'admin';
 
-const dummyUser: User = {
+const { password_hash, ...dummyUser }: User = {
   userId: '1231232131',
   email: 'johndoe@gmail.com',
   password_hash: '',
@@ -25,11 +26,33 @@ const dummyUser: User = {
   roleId: 1n,
 };
 
-const role = isDevUser ? 'user' : isDevAdmin ? 'admin' : null;
-
-const contextDefault = {
-  user: { ...dummyUser, role },
-  setSession: (user: User) => {},
+const role: Role = {
+  name: isDevUser ? Roles.USER : isDevAdmin ? Roles.ADMIN : Roles.USER,
+  roleId: 1n,
 };
 
-export const SessionContext = createContext(contextDefault);
+const userWithRole: UserWithRole = {
+  ...dummyUser,
+  role,
+};
+
+export type SessionContextType = {
+  session?: SessionWithUserSafe;
+  setSession?: (session: SessionWithUserSafe) => void;
+};
+
+const contextDefaultDev: SessionContextType = {
+  session: {
+    id: '123',
+    expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+    userId: userWithRole.userId,
+    user: {
+      ...userWithRole,
+    },
+  },
+  setSession: () => {},
+};
+
+export const SessionContext = createContext<SessionContextType>(
+  isDev ? contextDefaultDev : {}
+);
