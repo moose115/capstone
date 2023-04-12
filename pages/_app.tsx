@@ -1,11 +1,9 @@
-import {
-  createTheme,
-  CssBaseline,
-  GlobalStyles,
-  ThemeProvider,
-} from '@mui/material';
-import { green, lightGreen, purple } from '@mui/material/colors';
+import { SessionContext } from '@/context/SessionContext';
+import { SessionWithUserSafe } from '@/types/session';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { green } from '@mui/material/colors';
 import type { AppProps } from 'next/app';
+import { useEffect, useState } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -19,11 +17,30 @@ const theme = createTheme({
   },
 });
 
+const getSessionFromLocalStorage = () => {
+  if (typeof window === 'undefined') return null;
+  const session = localStorage.getItem('session');
+  if (session) {
+    return JSON.parse(session);
+  }
+  return null;
+};
+
 export default function App({ Component, pageProps }: AppProps) {
+  const [session, setSession] = useState<SessionWithUserSafe | undefined>(
+    getSessionFromLocalStorage
+  );
+
+  useEffect(() => {
+    localStorage.setItem('session', JSON.stringify(session));
+  }, [session]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Component {...pageProps} />
+      <SessionContext.Provider value={{ session, setSession }}>
+        <Component {...pageProps} />
+      </SessionContext.Provider>
     </ThemeProvider>
   );
 }
