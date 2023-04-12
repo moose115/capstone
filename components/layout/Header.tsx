@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { SessionContext } from '@/context/SessionContext';
 import {
   alpha,
   Box,
@@ -7,6 +9,8 @@ import {
   useTheme,
 } from '@mui/material';
 import Link from '../Link';
+import { navRoutes } from '@/lib/routing/routes';
+import { Roles } from '@prisma/client';
 
 const HeaderContainer = styled('header')(({ theme }) => [
   {
@@ -48,7 +52,12 @@ const Navigation = styled('nav')(({ theme }) => [
 ]);
 
 const Header = () => {
-  const theme = useTheme();
+  const { session } = useContext(SessionContext);
+  const links = [
+    ...navRoutes.common,
+    ...(session?.user?.role.name === Roles.ADMIN ? navRoutes.admin : []),
+    ...(session?.user?.role.name === Roles.USER ? navRoutes.user : []),
+  ];
 
   return (
     <HeaderContainer>
@@ -63,11 +72,18 @@ const Header = () => {
         </Box>
         <Navigation>
           <ul>
-            <li>
-              <Link href="/" color="inherit" fontWeight="bold" underline="none">
-                Home
-              </Link>
-            </li>
+            {links.map((route) => (
+              <li key={route.path}>
+                <Link
+                  href={route.path}
+                  color="inherit"
+                  fontWeight="bold"
+                  underline="none"
+                >
+                  {route.displayName}
+                </Link>
+              </li>
+            ))}
           </ul>
         </Navigation>
       </Container>
