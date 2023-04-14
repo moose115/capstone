@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SessionContext } from '@/context/SessionContext';
 import {
   alpha,
   Box,
+  Button,
   Container,
   styled,
   Typography,
@@ -11,6 +12,7 @@ import {
 import Link from '../Link';
 import { navRoutes } from '@/lib/routing/routes';
 import { Roles } from '@prisma/client';
+import LoginPopup from '../LoginPopup';
 
 const HeaderContainer = styled('header')(({ theme }) => [
   {
@@ -52,6 +54,7 @@ const Navigation = styled('nav')(({ theme }) => [
 ]);
 
 const Header = () => {
+  const [loginPopupOpen, setLoginPopupOpen] = useState(false);
   const { session } = useContext(SessionContext);
   const links = [
     ...navRoutes.common,
@@ -86,6 +89,16 @@ const Header = () => {
             ))}
           </ul>
         </Navigation>
+        <Box sx={{ position: { md: 'relative' } }}>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => setLoginPopupOpen(!loginPopupOpen)}
+          >
+            Login
+          </Button>
+          <LoginPopup isOpen={loginPopupOpen} />
+        </Box>
       </Container>
     </HeaderContainer>
   );
