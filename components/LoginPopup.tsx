@@ -1,5 +1,6 @@
 import { Box, Button, TextField, Typography, Grow } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import Link from './Link';
 
 type LoginPopupProps = {
   isOpen: boolean;
@@ -45,10 +46,10 @@ const LoginPopup = ({ isOpen }: LoginPopupProps) => {
         >
           <Box>
             <Typography variant="body2" sx={{ my: 1 }}>
-              Forgot password?
+              <Link href="/forgot-password">Forgot password?</Link>
             </Typography>
             <Typography variant="body2" sx={{ my: 1 }}>
-              Sign up
+              <Link href="/register">Register here</Link>
             </Typography>
           </Box>
           <Button variant="text">Log in</Button>
