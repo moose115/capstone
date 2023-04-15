@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography, Grow } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Link from './Link';
+import Link from '../Link';
 
 type LoginPopupProps = {
   isOpen: boolean;

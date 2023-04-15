@@ -12,7 +12,7 @@ import {
 import Link from '../Link';
 import { navRoutes } from '@/lib/routing/routes';
 import { Roles } from '@prisma/client';
-import LoginPopup from '../LoginPopup';
+import LoginPopup from '../nav/LoginPopup';
 
 const HeaderContainer = styled('header')(({ theme }) => [
   {
