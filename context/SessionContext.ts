@@ -54,5 +54,5 @@ const contextDefaultDev: SessionContextType = {
 };
 
 export const SessionContext = createContext<SessionContextType>(
-  isDev ? contextDefaultDev : {}
+  isDev && (isDevUser || isDevAdmin) ? contextDefaultDev : {}
 );
