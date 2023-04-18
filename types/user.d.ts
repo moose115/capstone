@@ -1,12 +1,9 @@
-export type User = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  band: string;
-  address: string;
-  city: string;
-  province: string;
-  courses: Course[]?;
-  role: Role;
-};
+import { Prisma } from '@prisma/client';
+
+export type UserWithRole = Omit<
+  User &
+    Prisma.UserGetPayload<{
+      include: { role: true };
+    }>,
+  'password_hash' | 'confirmationToken'
+>;

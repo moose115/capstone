@@ -1,5 +1,5 @@
-export type Session = {
-  id: string;
-  expiresAt: Date;
-  email: string;
+import { Session } from '@prisma/client';
+
+export type SessionWithUserSafe = Session & {
+  user: UserWithRole;
 };
