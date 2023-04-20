@@ -21,7 +21,10 @@ const navRoutes: RouteCategories = {
     { path: '/classes', displayName: 'Classes' },
   ],
   admin: [{ path: '/admin', displayName: 'Admin' }],
-  user: [{ path: '/profile', displayName: 'My profile' }],
+  user: [
+    { path: '/register', displayName: 'Register' },
+    { path: '/profile', displayName: 'My profile' },
+  ],
 };
 
 const profileRoutes: Route[] = [
