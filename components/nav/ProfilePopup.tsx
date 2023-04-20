@@ -75,7 +75,7 @@ const ProfilePopup = ({ isOpen, setIsOpen }: ProfilePopupProps) => {
                 await fetch('/api/session', { method: 'DELETE' });
                 setIsOpen(false);
                 mutate();
-                router.reload();
+                router.push('/');
               }}
             >
               <ListItemIcon>
