@@ -43,4 +43,20 @@ const adminRoutes: Route[] = [
   },
 ];
 
-export { navRoutes, profileRoutes, adminRoutes };
+// footer links, index 0 left column, 1 middle, 2 right
+const footerRoutes: Route[][] = [
+  [
+    { path: '/about', displayName: 'About' },
+    { path: '/contact', displayName: 'Contact' },
+  ],
+  [
+    { path: '/terms', displayName: 'Terms of Service' },
+    { path: '/privacy', displayName: 'Privacy Policy' },
+  ],
+  [
+    { path: '/help', displayName: 'Help' },
+    { path: '/faq', displayName: 'FAQ' },
+  ],
+];
+
+export { navRoutes, profileRoutes, adminRoutes, footerRoutes };
