@@ -60,6 +60,15 @@ const LinkUnstyled = styled(Link)({
   color: 'inherit',
 });
 
+const PlaceholderRect = styled('div')(({ theme }) => [
+  {
+    width: 100,
+    height: 20,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: theme.shape.borderRadius,
+  },
+]);
+
 const Header = () => {
   const [loginPopupOpen, setLoginPopupOpen] = useState(false);
   const [profilePopupOpen, setProfilePopupOpen] = useState(false);
@@ -106,7 +115,8 @@ const Header = () => {
             position: { md: 'relative' },
           }}
         >
-          {!user && (
+          {isLoading && <PlaceholderRect />}
+          {!user && !isLoading && (
             <>
               <Button
                 color="inherit"
@@ -128,7 +138,7 @@ const Header = () => {
               />
             </>
           )}
-          {user && (
+          {user && !isLoading && (
             <>
               <IconButton
                 aria-label="profile"
