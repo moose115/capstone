@@ -38,10 +38,10 @@ const userWithRole: UserWithRole = {
 
 export type SessionContextType = {
   session?: SessionWithUserSafe;
-  setSession?: (session: SessionWithUserSafe) => void;
+  setSession: (session: SessionWithUserSafe) => void;
 };
 
-const contextDefaultDev: SessionContextType = {
+export const contextDefaultDev: SessionContextType = {
   session: {
     id: '123',
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
@@ -53,6 +53,11 @@ const contextDefaultDev: SessionContextType = {
   setSession: () => {},
 };
 
+const contextEmpty: SessionContextType = {
+  session: undefined,
+  setSession: () => {},
+};
+
 export const SessionContext = createContext<SessionContextType>(
-  isDev && (isDevUser || isDevAdmin) ? contextDefaultDev : {}
+  isDev && (isDevUser || isDevAdmin) ? contextDefaultDev : contextEmpty
 );
