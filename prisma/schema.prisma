@@ -10,7 +10,7 @@ datasource db {
 // User related models
 
 model User {
-  userId            String       @id @default(cuid())
+  userId            String       @id @default(uuid())
   email             String       @unique @db.String(255)
   firstName         String?
   lastName          String?

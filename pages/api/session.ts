@@ -4,6 +4,10 @@ import * as zod from 'zod';
 import * as bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
 
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 const loginSchema = zod.object({
   email: zod.string().email(),
   password: zod.string(),
@@ -17,7 +21,7 @@ const loginSchema = zod.object({
  *   Request body: { email: string, password: string }
  *   Response:
  *     200:
- *       { user: User }
+ *       { ok: true }
  *     400:
  *     401:
  *     500:
@@ -74,7 +78,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
 
       const { password_hash, ...userWithoutPassword } = user;
 
-      res.status(200).json({ userWithoutPassword });
+      res.status(200).json({ ok: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal server error' });
