@@ -39,14 +39,14 @@ const Hero = () => {
             professionals and prepare for the arrival of your little one.
           </Typography>
           <Box>
-            <Link href="/classes">
+            <Link href="/register">
               <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 endIcon={<SchoolIcon />}
               >
-                View classes
+                Register now
               </Button>
             </Link>
           </Box>
