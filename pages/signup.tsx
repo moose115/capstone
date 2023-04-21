@@ -20,6 +20,7 @@ import {
 import Layout from '@/components/layout/Layout';
 import Section from '@/components/layout/Section';
 import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 
 const TextField = styled(_TextField)(({ theme }) => ({
   width: '100%',
@@ -31,9 +32,22 @@ const Signup = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const { register, control, handleSubmit } = useForm();
+  const router = useRouter();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json();
+
+    if (json.ok) {
+      router.push('/verify');
+    }
   };
 
   const isStepOptional = (step: number) => {

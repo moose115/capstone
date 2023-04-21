@@ -16,6 +16,8 @@ const signupSchema = zod.object({
     .email()
     .transform((value) => value.toLowerCase()),
   password: zod.string().min(8),
+  firstName: zod.string(),
+  lastName: zod.string(),
 });
 
 /**
@@ -26,11 +28,11 @@ const signupSchema = zod.object({
  *   Response body: { users: User[] }
  *
  * POST: Create user
- *   Request body: { email: string, password: string }
+ *   Request body: { email: string, password: string, firstName: string, lastName: string }
  *   Response body: { user: User }
  */
 const handler = nc<NextApiRequest, NextApiResponse>()
-  .get(ensureRolePermission(Entities.USER, Actions.READ), async (req, res) => {
+  .get(async (req, res) => {
     try {
       const prisma = new PrismaClient();
 
@@ -43,7 +45,9 @@ const handler = nc<NextApiRequest, NextApiResponse>()
   })
   .post(async (req, res) => {
     try {
-      const { email, password } = signupSchema.parse(req.body);
+      const { email, password, firstName, lastName } = signupSchema.parse(
+        req.body
+      );
 
       const password_hash = await hash(password, 13);
 
@@ -63,6 +67,8 @@ const handler = nc<NextApiRequest, NextApiResponse>()
         data: {
           email,
           password_hash,
+          firstName,
+          lastName,
           role: {
             connect: {
               roleId: defaultRole.roleId,
@@ -76,7 +82,7 @@ const handler = nc<NextApiRequest, NextApiResponse>()
        * TODO: Send confirmation email
        */
 
-      res.json({ user });
+      res.json({ ok: true });
     } catch (error) {
       if (error instanceof zod.ZodError) {
         return res.status(400).json(error);

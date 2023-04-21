@@ -37,7 +37,7 @@ const adminRoutes: Route[] = [
   { path: '/admin/users', displayName: 'Users', Icon: AccountCircleIcon },
   { path: '/admin/classes', displayName: 'Classes', Icon: ClassIcon },
   {
-    path: '/admin/registratoins',
+    path: '/admin/registrations',
     displayName: 'Registrations',
     Icon: AssignmentTurnedInIcon,
   },

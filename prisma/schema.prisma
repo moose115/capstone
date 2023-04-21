@@ -14,15 +14,15 @@ model User {
   email             String       @unique @db.String(255)
   firstName         String?
   lastName          String?
-  phoneNumber       String?      @unique @db.Char(10)
-  band              String?
-  address           String?
-  city              String?
-  province          String?
-  postal            String?
+  // phoneNumber       String?      @unique @db.Char(10)
+  // band              String?
+  // address           String?
+  // city              String?
+  // province          String?
+  // postal            String?
   password_hash     String
   createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
+  updatedAt         DateTime     @default(now()) @updatedAt
   confirmed         Boolean      @default(false)
   confirmationToken String       @default(cuid())
   courses           UserCourse[]
@@ -62,31 +62,21 @@ model Course {
   courseId          BigInt       @id @default(autoincrement())
   courseName        String
   courseDescription String
-  isOnline          Boolean
+  isOnline          Boolean      @default(false)
   canvaLink         String?
+  date              DateTime?    @unique
   users             UserCourse[]
-  schedules         Schedule[]
   quiz              Quiz[]
 }
 
 model UserCourse {
   passed   Boolean
-  score    Int?
   userId   String
   user     User    @relation(fields: [userId], references: [userId])
   courseId BigInt
   course   Course  @relation(fields: [courseId], references: [courseId])
 
   @@id([userId, courseId])
-}
-
-model Schedule {
-  scheduleId BigInt   @id @default(autoincrement())
-  startTime  DateTime
-  duration   Int
-  location   String
-  courseId   BigInt
-  course     Course   @relation(fields: [courseId], references: [courseId])
 }
 
 model Quiz {
